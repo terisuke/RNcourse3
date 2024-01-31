@@ -3,10 +3,10 @@ import Meal from '../models/meal';
 
 export const CATEGORIES = [
   new Category('c1', 'イタリアン', '#f5428d'),
-  new Category('c2', 'クイック＆イージー', '#f54242'),
+  new Category('c2', 'お手軽料理', '#f54242'),
   new Category('c3', 'ハンバーガー', '#f5a442'),
   new Category('c4', 'ドイツ料理', '#f5d142'),
-  new Category('c5', 'ライト＆ラブリー', '#368dff'),
+  new Category('c5', 'ヘルシー', '#368dff'),
   new Category('c6', 'エキゾチック', '#41d95d'),
   new Category('c7', '朝食', '#9eecff'),
   new Category('c8', 'アジア料理', '#b9ffb0'),
