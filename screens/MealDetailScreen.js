@@ -1,27 +1,47 @@
-import {useLayoutEffect} from 'react';
-import { View, Text, Image, StyleSheet, ScrollView} from 'react-native';
-import { MEALS } from '../data/dummy-data';
-import MealDetails from '../components/MealDetails';
-import SubTitle from '../components/MealDetail/Subtitle';
-import List from '../components/MealDetail/List';
+import { useContext, useLayoutEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import IconButton from '../components/IconButton';
+import List from '../components/MealDetail/List';
+import SubTitle from '../components/MealDetail/Subtitle';
+import MealDetails from '../components/MealDetails';
+import { MEALS } from '../data/dummy-data';
+import { addFavorite, removeFavorite } from '../store/redux/favorites';
+// import { FavoritesContext } from '../store/contexts/favorites-context';
 
 function MealDetailScreen({ route, navigation }) {
+
+    // const favoriteMealsCtx = useContext(FavoritesContext);
+    const favoriteMealIds = useSelector((state) => state.favoriteMeals.ids);
+
     const mealId = route.params.mealId;
 
     const selectedMeal = MEALS.find((meal) => meal.id === mealId);
 
-    function headewrButtonPressHandler() {
-        console.log('Favorite button pressed');
+    const mealIsFavorite = favoriteMealIds.includes(mealId);
+
+    const dispatch = useDispatch();
+
+    function changeFavoriteStatusHandler() {
+        if (mealIsFavorite) {
+            // favoriteMealsCtx.removeFavorite(mealId);
+            dispatch(removeFavorite({ id: mealId }));
+        } else {
+            // favoriteMealsCtx.addFavorite(mealId);
+            dispatch(addFavorite({ id: mealId }));
+        }
     }
 
     useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () => {
-            return <IconButton icon='star' color='white' onPress={headewrButtonPressHandler}/>;
+                return <IconButton
+                    icon={mealIsFavorite ? 'star' : 'star-outline'}
+                    color='white'
+                    onPress={changeFavoriteStatusHandler} />;
             }
         });
-    }, [navigation, headewrButtonPressHandler]);
+    }, [navigation, changeFavoriteStatusHandler]);
 
     return (
         <ScrollView style={styles.rootContainer}>
